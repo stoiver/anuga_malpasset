@@ -27,7 +27,7 @@ from os import sep, path
 
 import anuga
 from anuga.geometry.polygon_function import Polygon_function
-from anuga_parallel import distribute, myid, numprocs, finalize, barrier
+from anuga.parallel import distribute, myid, numprocs, finalize, barrier
 
 ######################
 # Domain
@@ -37,11 +37,11 @@ yieldstep = 15
 finaltime = 3000
 
 if myid == 0:
-    print 'Creating domain from', filename
+    print('Creating domain from', filename)
     domain = anuga.Domain(filename, verbose=True, use_cache=True)
-    print "Number of triangles = ", len(domain)
+    print("Number of triangles = ", len(domain))
 
-    domain.set_flow_algorithm('2_0_limited')
+    domain.set_flow_algorithm('DE1')
     domain.set_minimum_allowed_height(0.01)
     domain.set_minimum_storable_height(0.1)
     domain.set_name('Malpasset_second_order')
@@ -68,7 +68,7 @@ domain = distribute(domain)
 # Boundary Conditions
 #------------------------------
 Br = anuga.Reflective_boundary(domain)
-domain.set_boundary({'external' : Br, 'open' : Br})
+domain.set_boundary({'external' : Br})
 
 
 elevation = domain.get_quantity('elevation')
@@ -77,7 +77,7 @@ stage = domain.get_quantity('stage')
 int_elevation_0 = elevation.get_integral()
 int_stage_0 = stage.get_integral()
 
-print 'Water Volume ', int_stage_0 - int_elevation_0
+print('Water Volume ', int_stage_0 - int_elevation_0)
 
 
 ######################
@@ -87,7 +87,7 @@ t0 = time.time()
 for t in domain.evolve(yieldstep = yieldstep, finaltime = finaltime):
     domain.write_time()
     
-print 'That took %.2f seconds' %(time.time()-t0)
+print('That took %.2f seconds' %(time.time()-t0))
 
     
 domain.sww_merge()
