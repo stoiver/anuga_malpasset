@@ -45,6 +45,7 @@ if myid == 0:
     domain.set_minimum_allowed_height(0.01)
     domain.set_minimum_storable_height(0.1)
     domain.set_name('Malpasset_second_order')
+    domain.set_epsg(32632)
 
     #------------------
     #Initial conditions
