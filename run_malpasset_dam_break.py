@@ -26,15 +26,15 @@ from os import sep, path
 #print sep
 
 import anuga
-from anuga.geometry.polygon_function import Polygon_function
-from anuga.parallel import distribute, myid, numprocs, finalize, barrier
+from anuga import Polygon_function
+from anuga import distribute, myid, numprocs, finalize, barrier
 
 ######################
 # Domain
 #filename = 'malpasset_26000_merged.tsh'
 filename = 'malpasset_46691_mesh.tsh'
-yieldstep = 15
-finaltime = 3000
+yieldstep = 60
+finaltime = 10000
 
 if myid == 0:
     print('Creating domain from', filename)
